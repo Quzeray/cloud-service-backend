@@ -1,10 +1,10 @@
 package com.example.cloudservicebackend.model.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 @Data
-@AllArgsConstructor
+@Builder
+@RequiredArgsConstructor
 public class LoginRequest {
     private final String login;
     private final String password;

@@ -144,7 +144,7 @@ public class CloudFileControllerTest {
         verify(cloudFileService, times(1))
                 .editFileName(fileName, newFileName, validAuthToken);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("Success upload", responseEntity.getBody());
+        assertEquals("Success rename", responseEntity.getBody());
     }
 
     @Test

@@ -1,13 +1,12 @@
 package com.example.cloudservicebackend.model.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class FileNameRequest {
     @JsonProperty("filename")
     private String fileName;

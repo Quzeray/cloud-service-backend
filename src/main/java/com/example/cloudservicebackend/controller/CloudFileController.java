@@ -62,7 +62,7 @@ public class CloudFileController {
                                           @RequestBody FileNameRequest fileNameRequest) {
         final String newFileName = fileNameRequest.getFileName();
         cloudFileService.editFileName(fileName, newFileName, authToken);
-        return ResponseEntity.ok("Success upload");
+        return ResponseEntity.ok("Success rename");
     }
 }
 

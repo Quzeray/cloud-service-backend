@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionController {
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<LoginErrorResponse> handleBadCredentialsException(BadCredentialsException e) {
+    public ResponseEntity<?> handleBadCredentialsException(BadCredentialsException e) {
         final String errorMessage = "РќРµРІРµСЂРЅС‹Р№ Р»РѕРіРёРЅ РёР»Рё РїР°СЂРѕР»СЊ";
         LoginErrorResponse loginErrorResponse = LoginErrorResponse.builder()
                 .id(HttpStatus.UNAUTHORIZED.value())
@@ -33,21 +33,21 @@ public class ExceptionController {
     }
 
     @ExceptionHandler({ExpiredJwtException.class, SignatureException.class})
-    public ResponseEntity<ErrorResponse> handleJwtException(JwtException e) {
+    public ResponseEntity<?> handleJwtException(JwtException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.UNAUTHORIZED.value());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
     @ExceptionHandler({BadLimitException.class, CreateFileException.class, FileNotExistsException.class,
             UsernameNotFoundException.class})
-    public ResponseEntity<ErrorResponse> handleBadRequestsException(RuntimeException e) {
+    public ResponseEntity<?> handleBadRequestsException(RuntimeException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST.value());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @ExceptionHandler({SearchFileException.class, DetailIdNotFoundException.class, UploadFileException.class,
                     DeleteFileException.class, DownloadFileException.class, RenameFileException.class})
-    public ResponseEntity<ErrorResponse> handleInternalServerErrorException(CloudServiceException e) {
+    public ResponseEntity<?> handleInternalServerErrorException(CloudServiceException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }

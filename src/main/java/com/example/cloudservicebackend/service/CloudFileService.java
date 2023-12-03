@@ -22,11 +22,11 @@ import static java.text.MessageFormat.format;
 @Slf4j
 @RequiredArgsConstructor
 public class CloudFileService {
+    private final CloudFileRepository cloudFileRepository;
+    private final CloudFileFactory cloudFileFactory;
     private final CloudFileChecker cloudFileChecker;
     private final JwtTokenProcessor jwtTokenProcessor;
-    private final CloudFileRepository cloudFileRepository;
     private final CloudUserService cloudUserService;
-    private final CloudFileFactory cloudFileFactory;
 
     @Transactional
     public List<CloudFile> getFileList(int limit, String authToken) {
@@ -114,6 +114,4 @@ public class CloudFileService {
             throw new RenameFileException(message, e);
         }
     }
-
-
 }

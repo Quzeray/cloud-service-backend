@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.NonNull;
 
 @Data
 @Builder
@@ -18,9 +19,11 @@ public class CloudFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull
     @Column(nullable = false, unique = true)
     private String fileName;
 
+    @NonNull
     @Lob
     @Column(nullable = false)
     private byte[] data;

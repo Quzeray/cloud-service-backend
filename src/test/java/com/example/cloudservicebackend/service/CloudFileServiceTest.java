@@ -26,21 +26,17 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-public class CloudFIleServiceTest {
+public class CloudFileServiceTest {
     @Mock
     private JwtTokenProcessor jwtTokenProcessor;
-
     @Mock
     private CloudFileFactory cloudFileFactory;
     @Mock
     private CloudFileChecker cloudFileChecker;
-
     @Mock
     private CloudFileRepository cloudFileRepository;
-
     @Mock
     private CloudUserService cloudUserService;
-
     @InjectMocks
     private CloudFileService cloudFileService;
 
@@ -89,8 +85,8 @@ public class CloudFIleServiceTest {
     @DisplayName("Test Get file list. Successful")
     void testGetFileList() {
         // Arrange
-        final int limit = 5;
         final String authToken = "validToken";
+        final int limit = 5;
         final long userId = 1L;
         final List<CloudFile> expectedFiles = List.of(mock(CloudFile.class));
 
@@ -108,8 +104,8 @@ public class CloudFIleServiceTest {
     @DisplayName("Test Get file list with bad limit. Throws BadLimitException")
     void testGetFileListWithBadLimit() {
         // Arrange
-        final int badLimit = 0;
         final String authToken = "validToken";
+        final int badLimit = 0;
 
         // Assert
         assertThrows(BadLimitException.class, () -> cloudFileService.getFileList(badLimit, authToken));
@@ -119,8 +115,8 @@ public class CloudFIleServiceTest {
     @DisplayName("Test Get file list. Throws SearchFileException")
     void testGetFileListWithSearchFileException() {
         // Arrange
-        final int limit = 5;
         final String authToken = "validToken";
+        final int limit = 5;
         final long userId = 5L;
 
         when(jwtTokenProcessor.extractIdFromRequestToken(eq(authToken))).thenReturn(userId);
@@ -134,12 +130,12 @@ public class CloudFIleServiceTest {
     @DisplayName("Test Upload File. Successful")
     void testUploadFile() {
         // Arrange
-        final String fileName = "example.txt";
         final MultipartFile file = mock(MultipartFile.class);
-        final String authToken = "validToken";
-        final long userId = 1L;
         final CloudUser mockUser = mock(CloudUser.class);
         final CloudFile mockCloudFile = mock(CloudFile.class);
+        final String fileName = "example.txt";
+        final String authToken = "validToken";
+        final long userId = 1L;
 
         when(jwtTokenProcessor.extractIdFromRequestToken(eq(authToken))).thenReturn(userId);
         when(cloudUserService.getUserById(eq(userId))).thenReturn(mockUser);

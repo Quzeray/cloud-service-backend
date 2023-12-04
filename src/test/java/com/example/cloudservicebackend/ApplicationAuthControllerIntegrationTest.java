@@ -32,8 +32,8 @@ public class ApplicationAuthControllerIntegrationTest extends ContainersBaseTest
         final String login = "user";
         final String password = "password";
 
-        LoginRequest loginRequest = new LoginRequest(login, password);
-        ResponseEntity<String> response = restTemplate.postForEntity(URL + "/login", loginRequest, String.class);
+        final LoginRequest loginRequest = new LoginRequest(login, password);
+        final ResponseEntity<String> response = restTemplate.postForEntity(URL + "/login", loginRequest, String.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -46,8 +46,8 @@ public class ApplicationAuthControllerIntegrationTest extends ContainersBaseTest
         final String invalidLogin = "invalidUser";
         final String invalidPassword = "invalidPassword";
 
-        LoginRequest loginRequest = new LoginRequest(invalidLogin, invalidPassword);
-        ResponseEntity<Void> response = restTemplate.postForEntity(URL + "/login", loginRequest, Void.class);
+        final LoginRequest loginRequest = new LoginRequest(invalidLogin, invalidPassword);
+        final ResponseEntity<Void> response = restTemplate.postForEntity(URL + "/login", loginRequest, Void.class);
 
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
     }

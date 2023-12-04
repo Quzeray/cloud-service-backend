@@ -10,7 +10,7 @@ REST-сервис предоставляет интерфейс для загр�
 - Spring framework
 - JJWT
 - Lombok
-- PotgresSQL
+- PostgreSQL
 - Docker
 ### Тестирование
 - JUnit 

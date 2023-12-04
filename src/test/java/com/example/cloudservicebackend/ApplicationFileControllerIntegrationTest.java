@@ -117,8 +117,8 @@ public class ApplicationFileControllerIntegrationTest extends ContainersBaseTest
 
 
         final HttpHeaders headersRename = createHeaders(AUTH_TOKEN);
-        HttpEntity<FileNameRequest> requestRenameEntity = new HttpEntity<>(new FileNameRequest(newFileName), headersRename);
-        ResponseEntity<String> responseRename = restTemplate
+        final HttpEntity<FileNameRequest> requestRenameEntity = new HttpEntity<>(new FileNameRequest(newFileName), headersRename);
+        final ResponseEntity<String> responseRename = restTemplate
                 .exchange(URL + "/file?filename=" + oldFileName, PUT, requestRenameEntity, String.class);
 
         assertEquals(HttpStatus.OK, responseRename.getStatusCode());

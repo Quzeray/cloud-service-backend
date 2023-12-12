@@ -45,7 +45,7 @@ public class CloudFileServiceIntegrationTest {
         clearDatabase();
         final List<CloudRole> roleList = List.of(CloudRole.builder().name(TEST_ROLE).build());
         testDataUtils.createCloudUserWithRoles(TEST_LOGIN, TEST_PASSWORD, roleList);
-        // Id Р°РІС‚РѕРёРЅРєСЂРµРјРµРЅС‚РёСЂСѓРµС‚СЃСЏ
+        // Id is auto-incremented
         testId = cloudUserRepository.findByLogin(TEST_LOGIN).orElseThrow().getId();
     }
 

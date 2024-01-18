@@ -3,6 +3,7 @@ package com.example.cloudservicebackend.controller;
 import com.example.cloudservicebackend.exception.*;
 import com.example.cloudservicebackend.model.response.ErrorResponse;
 import com.example.cloudservicebackend.model.response.LoginErrorResponse;
+import com.example.cloudservicebackend.model.response.RegistrationErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -25,11 +26,22 @@ public class ExceptionController {
         LoginErrorResponse loginErrorResponse = LoginErrorResponse.builder()
                 .id(HttpStatus.UNAUTHORIZED.value())
                 .message(e.getMessage())
-                .email(new String[]{errorMessage})
+                .login(new String[]{errorMessage})
                 .password(new String[]{errorMessage})
                 .build();
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(loginErrorResponse);
+    }
+
+    @ExceptionHandler(UserExistsException.class)
+    public ResponseEntity<?> handleUserExistsException(UserExistsException e) {
+        final String errorMessage = "Р”Р°РЅРЅС‹Р№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓР¶Рµ СЃСѓС‰РµСЃС‚РІСѓРµС‚";
+        RegistrationErrorResponse registrationErrorResponse = RegistrationErrorResponse.builder()
+                .id(HttpStatus.BAD_REQUEST.value())
+                .message(errorMessage)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(registrationErrorResponse);
     }
 
     @ExceptionHandler({ExpiredJwtException.class, SignatureException.class})

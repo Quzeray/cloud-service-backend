@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collections;
@@ -22,7 +23,6 @@ import java.util.Collections;
 public class ApplicationConfig {
     private final CloudRoleRepository cloudRoleRepository;
     private final CloudUserRepository cloudUserRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Bean
     @Order(1)
@@ -46,13 +46,13 @@ public class ApplicationConfig {
             if (cloudUserRepository.count() == 0) {
                 cloudUserRepository.save(CloudUser.builder()
                         .login("user")
-                        .password(passwordEncoder.encode("password"))
+                        .password(new BCryptPasswordEncoder().encode("password"))
                         .roles(Collections.singletonList(cloudRoleRepository.findByName("user")))
                         .build());
                 cloudUserRepository.save(CloudUser.builder()
                         .id(100L)
                         .login("admin")
-                        .password(passwordEncoder.encode("password"))
+                        .password(new BCryptPasswordEncoder().encode("password"))
                         .roles(Collections.singletonList(cloudRoleRepository.findByName("admin")))
                         .build());
             }

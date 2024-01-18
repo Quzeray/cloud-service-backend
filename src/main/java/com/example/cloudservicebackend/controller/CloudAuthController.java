@@ -1,6 +1,7 @@
 package com.example.cloudservicebackend.controller;
 
 import com.example.cloudservicebackend.model.request.LoginRequest;
+import com.example.cloudservicebackend.model.request.RegistrationRequest;
 import com.example.cloudservicebackend.model.response.LoginResponse;
 import com.example.cloudservicebackend.service.CloudAuthService;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +17,16 @@ public class CloudAuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> createAuthToken(@RequestBody LoginRequest loginRequest) {
-        final String login = loginRequest.getLogin();
-        final String password = loginRequest.getPassword();
-        final String authToken = cloudAuthService.createAuthToken(login, password);
+        final String authToken = cloudAuthService.createAuthToken(loginRequest.getLogin(), loginRequest.getPassword());
+        return ResponseEntity.ok(new LoginResponse(authToken));
+    }
+
+    @PostMapping("/registration")
+    public ResponseEntity<?> register(@RequestBody RegistrationRequest registrationRequest) {
+        cloudAuthService.registration(registrationRequest.getLogin(), registrationRequest.getPassword());
+        final String authToken = cloudAuthService.createAuthToken(
+                registrationRequest.getLogin(), registrationRequest.getPassword()
+        );
         return ResponseEntity.ok(new LoginResponse(authToken));
     }
 }

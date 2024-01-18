@@ -1,6 +1,8 @@
 package com.example.cloudservicebackend.service;
 
+import com.example.cloudservicebackend.config.SecurityConfig;
 import com.example.cloudservicebackend.entity.CloudUser;
+import com.example.cloudservicebackend.repository.CloudRoleRepository;
 import com.example.cloudservicebackend.repository.CloudUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,10 +11,13 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 import static java.text.MessageFormat.format;
@@ -20,6 +25,7 @@ import static java.text.MessageFormat.format;
 @Service
 @RequiredArgsConstructor
 public class CloudUserService implements UserDetailsService {
+    private final CloudRoleRepository cloudRoleRepository;
     private final CloudUserRepository cloudUserRepository;
 
     @Override
@@ -32,6 +38,18 @@ public class CloudUserService implements UserDetailsService {
                 .password(cloudUser.getPassword())
                 .authorities(getUserAuthority(cloudUser))
                 .build();
+    }
+
+    public CloudUser createUser(String login, String password) {
+        return cloudUserRepository.save(CloudUser.builder()
+                .login(login)
+                .password(new BCryptPasswordEncoder().encode(password))
+                .roles(Collections.singletonList(cloudRoleRepository.findByName("user")))
+                .build());
+    }
+
+    public boolean isUserExists(String login) {
+        return cloudUserRepository.existsByLogin(login);
     }
 
     public CloudUser getUserByLogin(String login) {

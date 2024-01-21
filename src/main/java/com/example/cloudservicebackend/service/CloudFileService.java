@@ -30,26 +30,27 @@ public class CloudFileService {
 
     @Transactional
     public List<CloudFile> getFileList(int limit, String authToken) {
-        final PageRequest pageRequest = getPageRequest(limit);
+        if (limit < 0) {
+            final String message = format("The limit \"{0}\" is set incorrectly", limit);
+            log.error(message);
+            throw new BadLimitException(message);
+        }
+
         final long userId = jwtTokenProcessor.extractIdFromRequestToken(authToken);
         try {
-            final List<CloudFile> cloudFiles = cloudFileRepository.findAllByUserId(userId, pageRequest);
+            final List<CloudFile> cloudFiles;
+            if (limit == 0) {
+                cloudFiles = cloudFileRepository.findAllByUserId(userId);
+            } else {
+                PageRequest pageRequest = PageRequest.of(0, limit);
+                cloudFiles = cloudFileRepository.findAllByUserId(userId, pageRequest);
+            }
             log.info("Get files for user with id \"{}\" and limit \"{}\"", userId, limit);
             return cloudFiles;
         } catch (Exception e) {
             final String message = format("Error searching files for user with id \"{0}\"", userId);
             log.error(message);
             throw new SearchFileException(message, e);
-        }
-    }
-
-    private PageRequest getPageRequest(int limit) {
-        try {
-            return PageRequest.of(0, limit);
-        } catch (Exception e) {
-            final String message = format("The limit \"{0}\" is set incorrectly", limit);
-            log.error(message);
-            throw new BadLimitException(message, e);
         }
     }
 

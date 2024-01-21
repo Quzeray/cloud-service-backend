@@ -11,6 +11,7 @@ import java.util.List;
 public interface CloudFileRepository extends JpaRepository<CloudFile, Long> {
     CloudFile findByFileNameAndUserId(String fileName, long userId);
     List<CloudFile> findAllByUserId(long userId, Pageable pageable);
+    List<CloudFile> findAllByUserId(long userId);
     void deleteByFileNameAndUserId(String fileName, long userId);
     boolean existsByFileNameAndUserId(String fileName, long userId);
 }

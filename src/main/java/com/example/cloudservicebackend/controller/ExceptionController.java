@@ -22,7 +22,7 @@ public class ExceptionController {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<?> handleBadCredentialsException(BadCredentialsException e) {
-        final String errorMessage = "Wrong login or password";
+        final String errorMessage = "РќРµРІРµСЂРЅС‹Р№ Р»РѕРіРёРЅ РёР»Рё РїР°СЂРѕР»СЊ";
         LoginErrorResponse loginErrorResponse = LoginErrorResponse.builder()
                 .id(HttpStatus.UNAUTHORIZED.value())
                 .message(e.getMessage())

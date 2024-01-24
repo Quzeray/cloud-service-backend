@@ -5,6 +5,7 @@ import com.example.cloudservicebackend.config.security.web.filter.ExceptionHandl
 import com.example.cloudservicebackend.config.security.web.filter.JwtRequestFilter;
 import com.example.cloudservicebackend.service.CloudUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
@@ -28,6 +29,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+    @Value("${client.origin}")
+    private String clientOrigin;
     private final CloudUserService cloudUserService;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtRequestFilter jwtRequestFilter;
@@ -90,7 +93,7 @@ public class SecurityConfig {
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowCredentials(true)
-                        .allowedOrigins("http://localhost:8080")
+                        .allowedOrigins(clientOrigin)
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*");
             }
